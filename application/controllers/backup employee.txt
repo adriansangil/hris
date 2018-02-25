@@ -1,0 +1,94 @@
+<?php
+if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+class Employee extends CI_Controller {
+	
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('employee_model');
+		$this->load->helper("url");
+        $this->load->library("pagination");
+	}
+
+	public function index()
+	{
+		$data['employee_num'] = $this->employee_model->employee_count();
+		$data['all_employees'] = $this->employee_model->get_employees();
+		$data['title'] = 'employee';
+		$data['menu'] = 'Employee';
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/menu', $data);
+		$this->load->view('admin/employees/index2', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function view($employee_id)
+{
+	$data['employee'] = $this->employee_model->get_employees($employee_id);
+	//$data['title'] == 'employee';
+	$data['menu'] = 'Employee';
+	
+	if (empty($data['employee']))
+	{
+		show_404();
+	}
+
+	$data['title'] = $data['employee']['first_name'];
+
+	$this->load->view('templates/header', $data);
+	$this->load->view('templates/menu', $data);
+	$this->load->view('admin/employees/view', $data);
+	$this->load->view('templates/footer');
+}
+
+	public function addemployee()
+{
+	$this->load->helper('form');
+	$this->load->library('form_validation');
+	
+	$data['all_users'] = $this->employee_model->get_types();
+	$data['title'] = 'Add Employee';
+	$data['menu'] = 'Employee';
+	
+	$this->form_validation->set_rules('fname', 'first name', 'trim|required');
+	$this->form_validation->set_rules('mname', 'middle name', 'trim|required');
+	$this->form_validation->set_rules('lname', 'last name', 'trim|required');
+	$this->form_validation->set_rules('mobile', 'mobile number', 'trim|required|numeric');
+	$this->form_validation->set_rules('address', 'address', 'trim|required');
+	$this->form_validation->set_rules('wemail', 'email', 'trim|required');
+	
+	
+	if ($this->form_validation->run() === FALSE)
+	{ 
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/menu');			
+		$this->load->view('admin/employees/add_employee',$data);
+		$this->load->view('templates/footer');
+		
+	}
+	else
+	{ 
+		$this->employee_model->set_employee();
+		$this->load->view('admin/employees/success');
+	}
+}
+
+	 public function example1() {
+        $config = array();
+        $config["base_url"] = base_url() . "index.php/employee/example1";
+        $config["total_rows"] = $this->employee_model->employee_count();
+        $config["per_page"] = 2;
+        $config["uri_segment"] = 3;
+ 
+        $this->pagination->initialize($config);
+ 
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data["results"] = $this->employee_model->fetch_employees($config["per_page"], $page);
+        $data["links"] = $this->pagination->create_links();
+ 
+        $this->load->view("example1", $data);
+    }
+
+}

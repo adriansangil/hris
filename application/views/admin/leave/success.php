@@ -1,0 +1,1 @@
+You have succesfully edited the leave type!
