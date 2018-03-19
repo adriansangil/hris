@@ -14,7 +14,7 @@ You will need to deploy the project on a local server to try.
 ## Built With
 
 * [CodeIgniter](https://codeigniter.com/) - The web framework used, the old version of CodeIgniter
-* [PHP](https://maven.apache.org/) - Backend Language
+* [PHP](http://www.php.net/) - Backend programming language
 * [MySQL](https://www.mysql.com/) - databased used
 * [Bootstrap 3](https://getbootstrap.com/docs/3.3/) - frontend framework
 
