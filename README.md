@@ -10,6 +10,7 @@ School project way back in 2013. A Human Resource Information System created usi
 ## Getting Started
 
 You will need to deploy the project on a local server to try.
+Provided is the hris_bak.sql file for setting up the database used for this project. Use this to make a local copy for the database for this application.
 
 ## Built With
 
